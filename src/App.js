@@ -30,6 +30,7 @@ export default function App() {
   return (
     <div>
       <h1>Todo List</h1>
+      <AddTask addTask={handleAddTask} />
       <ul>
         {tasks.map(task => <TodoItem
           key={task.id}
@@ -59,6 +60,11 @@ export default function App() {
     const nextTasks = tasks.filter(task => task.id !== id);
     setTasks(nextTasks);
   }
+
+  function handleAddTask(task) {
+    const nextTasks = [...tasks, task];
+    setTasks(nextTasks);
+  }
 }
 
 function TodoItem({task, onSetDone, onDelete}) {
@@ -74,4 +80,22 @@ function TodoItem({task, onSetDone, onDelete}) {
     />
     <label for={id} className={isDone ? 'done' : ''}>{text}</label>
   </li>
+}
+
+function AddTask({addTask}) {
+  const [text, setText] = useState('');
+  return <div className="AddTask">
+    <input value={text} onChange={event => setText(event.target.value)}></input>
+    <button onClick={handleClick}>Add</button>
+  </div>
+
+  function handleClick() {
+    const task = {
+      id: String(Date.now()),
+      text,
+      isDone: false
+    };
+    setText('');
+    addTask(task);
+  }
 }

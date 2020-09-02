@@ -39,3 +39,14 @@ label {
 label.done {
 	text-decoration-line: line-through;
 }
+
+.AddTask {
+	margin-top: 20px;
+}
+
+.AddTask input {
+	margin-left: 30px;
+}
+.AddTask button {
+	margin-left: 5px;
+}
