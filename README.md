@@ -13,6 +13,7 @@ Fork project before editing
     3. add item to list
     4. persist state
 3. open questions: how would you improve this todo
+4. implement suggestions if time
 
 Bonus:
 
