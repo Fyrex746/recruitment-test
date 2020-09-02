@@ -35,3 +35,7 @@ li {
 label {
 	margin-left: 5px;
 }
+
+label.done {
+	text-decoration-line: line-through;
+}
