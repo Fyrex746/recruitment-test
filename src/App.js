@@ -1,31 +1,11 @@
 import React, {useState, useEffect} from "react";
 import "./styles.css";
+import {useSelector, useDispatch} from 'react-redux'
 
-const tasksDefault = [
-  {
-    id: "step1",
-    text: "Learn development",
-    isDone: false
-  },
-  {
-    id: "step2",
-    text: "Create stuff",
-    isDone: false
-  },
-  {
-    id: "step3",
-    text: "????",
-    isDone: false
-  },
-  {
-    id: "step4",
-    text: "PROFIT!!!",
-    isDone: false
-  },
-];
 
 export default function App() {
-  const [tasks, setTasks] = useState(JSON.parse(localStorage.getItem('tasks')) || tasksDefault);
+  const tasks = useSelector(state => state);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     localStorage.setItem('tasks', JSON.stringify(tasks));
@@ -36,7 +16,7 @@ export default function App() {
       <h1>Todo List</h1>
       <AddTask addTask={handleAddTask} />
       <ul>
-        {tasks.map(task => <TodoItem
+        {(tasks).map(task => <TodoItem
           key={task.id}
           task={task}
           onSetDone={isDone => handleSetDone(task.id, isDone)}
@@ -47,27 +27,24 @@ export default function App() {
   );
 
   function handleSetDone(id, isDone) {
-    const nextTasks = tasks.map(task => {
-      if (task.id === id) {
-        return {
-          ...task,
-          isDone
-        }
-      } else {
-        return task;
-      }
-    });
-    setTasks(nextTasks);
+    dispatch({
+      type: isDone ? "FINISH" : "UNFINISH",
+      id
+    })
   }
 
   function handleDelete(id) {
-    const nextTasks = tasks.filter(task => task.id !== id);
-    setTasks(nextTasks);
+    dispatch({
+      type: "DELETE",
+      id
+    })
   }
 
   function handleAddTask(task) {
-    const nextTasks = [...tasks, task];
-    setTasks(nextTasks);
+    dispatch({
+      type: "ADD",
+      task
+    })
   }
 }
 
