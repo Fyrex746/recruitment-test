@@ -31,7 +31,12 @@ export default function App() {
     <div>
       <h1>Todo List</h1>
       <ul>
-        {tasks.map(task => <TodoItem key={task.id} task={task} onSetDone={isDone => handleSetDone(task.id, isDone)} />)}
+        {tasks.map(task => <TodoItem
+          key={task.id}
+          task={task}
+          onSetDone={isDone => handleSetDone(task.id, isDone)}
+          onDelete={() => handleDelete(task.id)}
+        />)}
       </ul>
     </div>
   );
@@ -49,12 +54,17 @@ export default function App() {
     });
     setTasks(nextTasks);
   }
+
+  function handleDelete(id) {
+    const nextTasks = tasks.filter(task => task.id !== id);
+    setTasks(nextTasks);
+  }
 }
 
-function TodoItem({task, onSetDone}) {
+function TodoItem({task, onSetDone, onDelete}) {
   const {id, text, isDone} = task;
   return <li key={id}>
-    <span className="deleteIcon">x</span>
+    <span className="deleteIcon" onClick={() => onDelete()}>x</span>
     <input
       type="checkbox"
       id={id}
