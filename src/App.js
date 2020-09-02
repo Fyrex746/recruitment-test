@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import "./styles.css";
 
 const tasksDefault = [
@@ -25,7 +25,11 @@ const tasksDefault = [
 ];
 
 export default function App() {
-  const [tasks, setTasks] = useState(tasksDefault);
+  const [tasks, setTasks] = useState(JSON.parse(localStorage.getItem('tasks')) || tasksDefault);
+
+  useEffect(() => {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }, [tasks])
 
   return (
     <div>
